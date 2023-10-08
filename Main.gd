@@ -3,6 +3,13 @@ extends Node
 @export var mob_scene: PackedScene
 var score
 
+# Features to do:
+#	Make mobs spawn from outer edge instead of inside screen
+#	Add pause button
+#   Add pause screen with continue and exit buttons
+#	Add ability to slow down mobs
+#   ???
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	new_game()
@@ -12,7 +19,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
 
 func game_over():
 	$ScoreTimer.stop()
