@@ -47,5 +47,6 @@ animation = &"up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_nb2mp")
+debug_color = Color(0, 0.0666667, 0.439216, 0.419608)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
