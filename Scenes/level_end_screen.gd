@@ -24,7 +24,7 @@ func _on_game_manager_toggle_level_end(level_ended):
 		if (levelWon):
 			message = "Level Won"
 			setMessage(message)
-			setButton("Continue")
+			setButton("Next Level")
 		else:
 			message = "Level Lost"
 			setMessage(message)

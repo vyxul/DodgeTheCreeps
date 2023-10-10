@@ -45,6 +45,8 @@ To Do List:
 	Level End Screen
 		Different text based off of win/loss condition (done)
 		Continue/Retry Button
+			Continue (need to make level2 or redirect to start)
+			Retry (Done, deathsound is messed up)
 		Main Menu Button
 		Exit Button (done)
 		
@@ -54,6 +56,10 @@ To Do List:
 		Music being managed in GameManager (done)
 	Add ability to slow down mobs
 	Add settings to adjust music volume and mob speed
+		Create settings menu
+		Link settings menu changes to actual nodes
+	Create how to play menu
+	Make dragon ball have a shiny animation on spawn
 	???
 """
 
@@ -62,7 +68,7 @@ signal toggle_level_end(level_ended: bool)
 
 var next_level_resource
 var next_level
-var levelNum
+var currentlevelNum
 var currentlyInGame: bool
 
 var game_paused: bool = false:
@@ -86,8 +92,9 @@ func _ready():
 	currentlyInGame = false
 	next_level_resource = load("res://Scenes/level_1.tscn")
 	next_level = next_level_resource.instantiate()
-	$Music.set_volume_db(-20)
-	$Music.play()
+	var music = $Music
+	music.set_volume_db(-20)
+	music.play()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -111,12 +118,14 @@ func _input(event : InputEvent):
 func levelCompleted(levelNum):
 	print("Received the levelWon signal with a level num of %d"  % levelNum)
 	$CanvasLayer/LevelEndScreen.setLevelWon(true)
+	currentlevelNum = levelNum
 	currentlyInGame = false
 	level_ended = true
 
 func levelFailed(levelNum):
 	print("Received the levelLost signal with a level num of %d"  % levelNum)
 	$CanvasLayer/LevelEndScreen.setLevelWon(false)
+	currentlevelNum = levelNum
 	currentlyInGame = false
 	level_ended = true
 
@@ -158,8 +167,18 @@ func _on_pause_menu_exit_button_pressed():
 	
 	
 """ Level End Events """
-func _on_level_end_screen_play_button_pressed(levelWon):
+func _on_level_end_screen_play_button_pressed(levelWon: bool):
 	print("GameManager | PauseMenu.ResumeButtonPressed received with parameter of %s" % str(levelWon))
+	# Check if level won is true or false
+	# If player completed level, move onto next level
+	if (levelWon):
+		print("GameManager | _on_level_end_screen_play_button_pressed(): Next level not implemented yet")
+	# If player failed level, reset the current level
+	else:
+		print("GameManager | _on_level_end_screen_play_button_pressed(): Resetting level and unpausing")
+		next_level.newGame()
+		level_ended = false
+		currentlyInGame = true
 
 func _on_level_end_screen_menu_button_pressed():
 	print("GameManager | PauseMenu.ResumeButtonPressed received")

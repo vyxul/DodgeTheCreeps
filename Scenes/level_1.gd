@@ -17,6 +17,7 @@ var mobsSpawned: int
 var pointsSpawned: int
 var pointsGained: int
 var pointCounter: int
+var mobCounter: int
 var screen_size
 
 const DragonBall = preload("res://Scenes/dragon_ball.tscn")
@@ -39,13 +40,18 @@ func newGame():
 	pointsSpawned = 0
 	pointsGained = 0
 	pointCounter = 0
-	$Player.start($StartPosition.position)
+	mobCounter = 0
+	$HUD.update_score(pointsGained)
+	get_tree().call_group("mobs", "queue_free")
+	get_tree().call_group("dragonballs", "queue_free")
+	var player = $Player
+	player.start($StartPosition.position)
+	player.setHitbox(true)
 	var message: String = "Collect %d dragon balls to complete level!" % pointGoal
 	$HUD.show_message(message)
 	$MessageTimer.start()
 	
 func _on_message_timer_timeout():
-#	$HUD.hide_message()
 	$StartTimer.start()
 
 # How much breathing time to give player after message disappears before mob spawn system starts
@@ -82,6 +88,9 @@ func _on_mob_spawn_timer_timeout():
 	var velocity = Vector2(randf_range(mobMinSpeed, mobMaxSpeed), 0) # This only gets the speed, not direction
 	mob.linear_velocity = velocity.rotated(direction) # This adjusts velocity to account for direction
 	
+	mobCounter += 1
+	mob.name = "Mob_" + str(mobCounter)
+	print("Mob.name = %s" % mob.name)
 	add_child(mob)
 	mob.mobExitedScreen.connect(mobExitedScreen) # Recommended way
 #	mob.connect("mobExitedScreen", mobExitedScreen) # Alternative way, not recommended

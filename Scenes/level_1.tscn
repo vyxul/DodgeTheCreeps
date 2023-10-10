@@ -14,7 +14,7 @@ point_count = 5
 
 [node name="Level_1" type="Node"]
 script = ExtResource("1_stu6h")
-pointGoal = 1
+pointGoal = 5
 mob_scene = ExtResource("2_valml")
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]

@@ -67,13 +67,20 @@ func _on_body_entered(body):
 		var dbNodeId = body.get_instance_id()
 		hitPoint.emit(dbNodeId)
 		print("Player | _on_body_entered(): dbNodeId = " + str(dbNodeId))
-	elif (body.name == "Mob"):
+	elif (body.name.contains("Mob")):
+		print("Player hit mob")
 		hitEnemy.emit() # Emit the custom hit signal
 		hide() # Player disappears after being hit
 		# Must be deferred as we can't change physics properties on a physics callback
 		# Disable the player's collision so we don't trigger the hit signal more than once
 		# set_deferred() tells Godot to wait to disable the shape until it's safe to do so
-		$CollisionShape2D.set_deferred("disabled", true)
+		setHitbox(false)
+	else:
+		print("Player hit a %s with a name of $s" % [typeof(body), body.name])
+		
+# Input is if hitbox should be on (true) or off (false), will set disabled to the opposite value of input
+func setHitbox(value: bool):
+	$CollisionShape2D.set_deferred("disabled", !value)
 
 
 
