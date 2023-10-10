@@ -3,14 +3,6 @@ extends Node
 @export var mob_scene: PackedScene
 var score
 
-# Features to do:
-#	Make mobs spawn from outer edge instead of inside screen
-#	Add pause button
-#   Add pause screen with continue and exit buttons
-#	Add ability to slow down mobs
-#   Add settings to adjust music volume and mob speed
-#   ???
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -34,8 +26,6 @@ func new_game():
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	get_tree().call_group("mobs", "queue_free")
-	$Music.set_volume_db(.5)
-	$Music.play()
 
 func _on_score_timer_timeout():
 	score += 1

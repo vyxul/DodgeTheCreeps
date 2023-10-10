@@ -1,18 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq7g2j32yuejn"]
+[gd_scene load_steps=3 format=3 uid="uid://dq7g2j32yuejn"]
 
 [ext_resource type="Script" path="res://Scenes/hud.gd" id="1_0lyf6"]
 [ext_resource type="FontFile" uid="uid://dq2xslcmyvkwq" path="res://Assets/fonts/Xolonium-Regular.ttf" id="1_5u1va"]
 
-[sub_resource type="InputEventAction" id="InputEventAction_ad8gp"]
-action = &"start_game"
-
-[sub_resource type="Shortcut" id="Shortcut_jr0v7"]
-events = [SubResource("InputEventAction_ad8gp")]
-
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_0lyf6")
 
-[node name="ScoreLabel" type="Label" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreLabel" type="Label" parent="Control"]
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -26,44 +29,46 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Message" type="Label" parent="."]
-anchors_preset = 8
+[node name="GameOverMessageTimer" type="Timer" parent="Control"]
+wait_time = 2.0
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -81.0
-offset_right = 240.0
-offset_bottom = 81.0
+offset_left = -168.0
+offset_top = 120.0
+offset_right = 168.0
+offset_bottom = 272.0
+grow_horizontal = 2
+metadata/_edit_group_ = true
+
+[node name="PanelColor" type="ColorRect" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.482353, 0.482353, 0.482353, 0.384314)
+
+[node name="PanelMessage" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_5u1va")
-theme_override_font_sizes/font_size = 64
-text = "Dodge the creeps!"
+theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="StartButton" type="Button" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -140.0
-offset_right = 100.0
-offset_bottom = -40.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("1_5u1va")
-theme_override_font_sizes/font_size = 64
-shortcut = SubResource("Shortcut_jr0v7")
-text = "Start"
-
-[node name="MessageTimer" type="Timer" parent="."]
+[node name="MessageTimer" type="Timer" parent="Control/Panel"]
 wait_time = 2.0
+one_shot = true
 
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="timeout" from="Control/GameOverMessageTimer" to="." method="_on_game_over_message_timer_timeout"]
+[connection signal="timeout" from="Control/Panel/MessageTimer" to="." method="_on_message_timer_timeout"]

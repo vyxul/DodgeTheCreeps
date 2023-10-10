@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bi6vkyqa34uan"]
+
+[ext_resource type="Texture2D" uid="uid://dtcny43xyk558" path="res://Assets/art/DragonBall.png" id="1_486un"]
+[ext_resource type="Script" path="res://Scenes/dragon_ball.gd" id="1_riykt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ff524"]
+radius = 134.004
+
+[node name="DragonBall" type="StaticBody2D"]
+script = ExtResource("1_riykt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_486un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.15, 0.15)
+shape = SubResource("CircleShape2D_ff524")

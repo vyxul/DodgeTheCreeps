@@ -5,13 +5,12 @@ extends Area2D
 @export var speed = 400 
 # Size of the game window
 var screen_size
-signal hit
+signal hitEnemy
+signal hitPoint(instanceId: int)
 
 func start(pos):
 	position = pos
 	show()
-	$CollisionShape2D.disabled = false
-	$CollisionShape2D.visible = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,9 +62,18 @@ func _process(delta):
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 
 func _on_body_entered(body):
-	hide() # Player disappears after being hit
-	hit.emit() # Emit the custom hit signal
-	# Must be deferred as we can't change physics properties on a physics callback
-	# Disable the player's collision so we don't trigger the hit signal more than once
-	# set_deferred() tells Godot to wait to disable the shape until it's safe to do so
-	$CollisionShape2D.set_deferred("disabled", true)
+	print("class name = " + body.name)
+	if (body.name.contains("DragonBall")):
+		var dbNodeId = body.get_instance_id()
+		hitPoint.emit(dbNodeId)
+		print("Player | _on_body_entered(): dbNodeId = " + str(dbNodeId))
+	elif (body.name == "Mob"):
+		hitEnemy.emit() # Emit the custom hit signal
+		hide() # Player disappears after being hit
+		# Must be deferred as we can't change physics properties on a physics callback
+		# Disable the player's collision so we don't trigger the hit signal more than once
+		# set_deferred() tells Godot to wait to disable the shape until it's safe to do so
+		$CollisionShape2D.set_deferred("disabled", true)
+
+
+

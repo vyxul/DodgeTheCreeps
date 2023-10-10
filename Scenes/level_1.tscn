@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://bttxkw8eetnu7"]
+
+[ext_resource type="Script" path="res://Scenes/level_1.gd" id="1_stu6h"]
+[ext_resource type="PackedScene" uid="uid://mfxuhnqw1ffi" path="res://Scenes/Player.tscn" id="2_isuq7"]
+[ext_resource type="PackedScene" uid="uid://dckefigeh3k42" path="res://Scenes/mob.tscn" id="2_valml"]
+[ext_resource type="AudioStream" uid="uid://oktshlj2ah3g" path="res://Assets/art/gameover.wav" id="3_df5ch"]
+[ext_resource type="PackedScene" uid="uid://dq7g2j32yuejn" path="res://Scenes/hud.tscn" id="6_c5xrl"]
+
+[sub_resource type="Curve2D" id="Curve2D_4dnfe"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Level_1" type="Node"]
+script = ExtResource("1_stu6h")
+pointGoal = 1
+mob_scene = ExtResource("2_valml")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_df5ch")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 1, 1)
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="MobSpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="PointTimer" type="Timer" parent="."]
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 360)
+gizmo_extents = 0.0
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_4dnfe")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+
+[node name="Player" parent="." instance=ExtResource("2_isuq7")]
+position = Vector2(240, 360)
+
+[node name="HUD" parent="." instance=ExtResource("6_c5xrl")]
+
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timer_timeout"]
+[connection signal="timeout" from="PointTimer" to="." method="_on_point_timer_timeout"]
+[connection signal="hitEnemy" from="Player" to="." method="_on_player_hit_enemy"]
+[connection signal="hitPoint" from="Player" to="." method="_on_player_hit_point"]

@@ -28,7 +28,43 @@ For this implementation, the pause_menu component will have a function that chec
 signal is emitted and checks the argument and based on if it is true or false, it will either show
 or hide everything within that component.
 """ 
+
+"""
+To Do List:
+	Make mobs spawn from outer edge instead of inside screen (DONE)
+	Start Menu
+		Start Button (done, goes to level_1, can be adjusted)
+		Settings Button
+		How to Play Button
+		Exit Button (done)
+	Pause Menu
+		Pause game when pressing ESCAPE (done)
+		Resume Button (done)
+		Settings Button
+		Exit Button (done)
+	Level End Screen
+		Different text based off of win/loss condition (done)
+		Continue/Retry Button
+		Main Menu Button
+		Exit Button (done)
+		
+	Restructure the game to fit better with GameManager root node, 
+		ie Music being managed there, allowing multiple levels, etc
+		Level Switch (done)
+		Music being managed in GameManager (done)
+	Add ability to slow down mobs
+	Add settings to adjust music volume and mob speed
+	???
+"""
+
 signal toggle_game_paused(is_paused: bool)
+signal toggle_level_end(level_ended: bool)
+
+var next_level_resource
+var next_level
+var levelNum
+var currentlyInGame: bool
+
 var game_paused: bool = false:
 	get:
 		return game_paused
@@ -37,9 +73,21 @@ var game_paused: bool = false:
 		get_tree().paused = game_paused
 		emit_signal("toggle_game_paused", game_paused)
 
+var level_ended: bool = false:
+	get:
+		return level_ended
+	set(value):
+		level_ended = value
+		get_tree().paused = level_ended
+		toggle_level_end.emit(level_ended)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	currentlyInGame = false
+	next_level_resource = load("res://Scenes/level_1.tscn")
+	next_level = next_level_resource.instantiate()
+	$Music.set_volume_db(-20)
+	$Music.play()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -54,7 +102,69 @@ func _input(event : InputEvent):
 	be checking for an input that doesn't happen often, whereas _input() isn't
 	called as often which works good for this case
 	"""
-	if (event.is_action_pressed("ui_cancel")):
+	if (event.is_action_pressed("ui_cancel") && currentlyInGame):
 		print("GameManager | _input(): Toggling game state")
 		game_paused = !game_paused
 		print("game_paused: %s" % game_paused)
+
+# When the player successfully completes a level
+func levelCompleted(levelNum):
+	print("Received the levelWon signal with a level num of %d"  % levelNum)
+	$CanvasLayer/LevelEndScreen.setLevelWon(true)
+	currentlyInGame = false
+	level_ended = true
+
+func levelFailed(levelNum):
+	print("Received the levelLost signal with a level num of %d"  % levelNum)
+	$CanvasLayer/LevelEndScreen.setLevelWon(false)
+	currentlyInGame = false
+	level_ended = true
+
+""" Start Menu Events """
+func _on_start_menu_start_button_pressed():
+	print("GameManager | StartButton pressed")
+	$Level/StartMenu.queue_free()
+	next_level.levelWon.connect(levelCompleted.bind())
+	next_level.levelLost.connect(levelFailed.bind())
+	$Level.add_child(next_level)
+	currentlyInGame = true
+	
+func _on_start_menu_settings_button_pressed():
+	print("GameManager | StartMenu.SettingsButtonPressed received")
+
+func _on_start_menu_how_to_play_button_pressed():
+	print("GameManager | StartMenu.HowToPlayButtonPressed received")
+
+func _on_start_menu_exit_button_pressed():
+	print("GameManager | StartMenu.ExitButtonPressed received")
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	get_tree().quit()
+
+
+""" Pause Menu Events """
+func _on_pause_menu_resume_button_pressed():
+	print("GameManager | PauseMenu.ResumeButtonPressed received")
+	print("GameManager | _on_pause_menu_resume_button_pressed(): Toggling game state")
+	game_paused = !game_paused
+	print("game_paused: %s" % game_paused)
+
+func _on_pause_menu_settings_button_pressed():
+	print("GameManager | PauseMenu.SettingsButtonPressed received")
+
+func _on_pause_menu_exit_button_pressed():
+	print("GameManager | PauseMenu.ExitButtonPressed received")
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	get_tree().quit()
+	
+	
+""" Level End Events """
+func _on_level_end_screen_play_button_pressed(levelWon):
+	print("GameManager | PauseMenu.ResumeButtonPressed received with parameter of %s" % str(levelWon))
+
+func _on_level_end_screen_menu_button_pressed():
+	print("GameManager | PauseMenu.ResumeButtonPressed received")
+
+func _on_level_end_screen_exit_button_pressed():
+	print("GameManager | PauseMenu.ResumeButtonPressed received")
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	get_tree().quit()
