@@ -47,7 +47,7 @@ To Do List:
 		Continue/Retry Button
 			Continue (need to make level2 or redirect to start)
 			Retry (Done, deathsound is messed up)
-		Main Menu Button
+		Main Menu Button (done)
 		Exit Button (done)
 		
 	Restructure the game to fit better with GameManager root node, 
@@ -90,8 +90,6 @@ var level_ended: bool = false:
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	currentlyInGame = false
-	next_level_resource = load("res://Scenes/level_1.tscn")
-	next_level = next_level_resource.instantiate()
 	var music = $Music
 	music.set_volume_db(-20)
 	music.play()
@@ -128,11 +126,31 @@ func levelFailed(levelNum):
 	currentlevelNum = levelNum
 	currentlyInGame = false
 	level_ended = true
+	
+func goBackToStartMenu():
+	# Remove the current level scene
+	var currentLevel = $Level.get_child(0)
+	currentLevel.queue_free()
+	
+	# Load the start menu with the signal connections
+	next_level_resource = load("res://Scenes/start_menu.tscn")
+	next_level = next_level_resource.instantiate()
+	next_level.StartButtonPressed.connect(_on_start_menu_start_button_pressed)
+	next_level.SettingsButtonPressed.connect(_on_start_menu_settings_button_pressed)
+	next_level.HowToPlayButtonPressed.connect(_on_start_menu_how_to_play_button_pressed)
+	next_level.ExitButtonPressed.connect(_on_start_menu_exit_button_pressed)
+	$Level.add_child(next_level)
+	
+	# Toggle the pause and level end flags to false
+	currentlyInGame = false
+	level_ended = false
 
 """ Start Menu Events """
 func _on_start_menu_start_button_pressed():
 	print("GameManager | StartButton pressed")
 	$Level/StartMenu.queue_free()
+	next_level_resource = load("res://Scenes/level_1.tscn")
+	next_level = next_level_resource.instantiate()
 	next_level.levelWon.connect(levelCompleted.bind())
 	next_level.levelLost.connect(levelFailed.bind())
 	$Level.add_child(next_level)
@@ -182,6 +200,8 @@ func _on_level_end_screen_play_button_pressed(levelWon: bool):
 
 func _on_level_end_screen_menu_button_pressed():
 	print("GameManager | PauseMenu.ResumeButtonPressed received")
+	goBackToStartMenu()
+	
 
 func _on_level_end_screen_exit_button_pressed():
 	print("GameManager | PauseMenu.ResumeButtonPressed received")
