@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=3 uid="uid://cfdu3iat1g354"]
+
+[ext_resource type="Texture2D" uid="uid://vsvc1bm33ard" path="res://Assets/art/sky.jpg" id="1_1clor"]
+[ext_resource type="Script" path="res://Scenes/how_to_play_screen.gd" id="1_82e4g"]
+[ext_resource type="Texture2D" uid="uid://b8lw4s5sukh2l" path="res://Assets/art/WASD_Control_Keys.png" id="2_n0e6j"]
+[ext_resource type="Texture2D" uid="uid://typ6rn6eeite" path="res://Assets/art/ArrowKey_Control_Keys.png" id="3_iytho"]
+[ext_resource type="FontFile" uid="uid://dq2xslcmyvkwq" path="res://Assets/fonts/Xolonium-Regular.ttf" id="4_qc70p"]
+[ext_resource type="Texture2D" uid="uid://b44b6jdq0gut2" path="res://Assets/art/playerGrey_up1.png" id="5_h3nd8"]
+[ext_resource type="Texture2D" uid="uid://mye6y1mmxxig" path="res://Assets/art/playerGrey_up2.png" id="6_56i6j"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_85mty"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_h3nd8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_56i6j")
+}],
+"loop": true,
+"name": &"move",
+"speed": 2.0
+}]
+
+[node name="HowToPlayScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_82e4g")
+
+[node name="Window" type="Window" parent="."]
+initial_position = 1
+size = Vector2i(400, 300)
+unresizable = true
+
+[node name="Background Art" type="Sprite2D" parent="Window"]
+texture = ExtResource("1_1clor")
+centered = false
+
+[node name="Panel" type="Panel" parent="Window"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -125.0
+offset_right = 175.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelColor" type="ColorRect" parent="Window/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -125.0
+offset_right = 175.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.482353, 0.482353, 0.482353, 0.580392)
+
+[node name="WasdControlKeys" type="Sprite2D" parent="Window/Panel"]
+position = Vector2(100, 50)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_n0e6j")
+
+[node name="ArrowKeyControlKeys" type="Sprite2D" parent="Window/Panel"]
+position = Vector2(250, 50)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_iytho")
+
+[node name="PlayerIcon" type="AnimatedSprite2D" parent="Window/Panel"]
+position = Vector2(300, 150)
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_85mty")
+animation = &"move"
+frame_progress = 0.861185
+
+[node name="CloseButton" type="Button" parent="Window/Panel"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 200.0
+offset_right = 225.0
+offset_bottom = 240.0
+theme_override_fonts/font = ExtResource("4_qc70p")
+text = "Close"
+
+[node name="Label" type="Label" parent="Window/Panel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 115.0
+offset_right = 265.0
+offset_bottom = 315.0
+theme_override_fonts/font = ExtResource("4_qc70p")
+theme_override_font_sizes/font_size = 15
+text = "Use the WASD / Arrow Keys to move your character and avoid the enemies!"
+autowrap_mode = 2
+
+[connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
+[connection signal="pressed" from="Window/Panel/CloseButton" to="." method="_on_close_button_pressed"]

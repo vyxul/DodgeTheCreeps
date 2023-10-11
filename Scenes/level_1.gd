@@ -91,7 +91,7 @@ func _on_mob_spawn_timer_timeout():
 	mobCounter += 1
 	mob.name = "Mob_" + str(mobCounter)
 	print("Mob.name = %s" % mob.name)
-	add_child(mob)
+	$MobGroups.add_child(mob)
 	mob.mobExitedScreen.connect(mobExitedScreen) # Recommended way
 #	mob.connect("mobExitedScreen", mobExitedScreen) # Alternative way, not recommended
 #   Recommended way is to do Signal.connect(...) instead of Object.connect(signal, ...)
@@ -116,7 +116,7 @@ func _on_point_timer_timeout():
 	var position = Vector2(randf_range(0, screen_size.x), randf_range(0, screen_size.y))
 	dragonball.position = position
 	dragonball.name = "DragonBall_" + str(pointCounter)
-	add_child(dragonball)
+	$PointGroups.add_child(dragonball)
 
 # Player touched point
 func _on_player_hit_point(instanceId: int):

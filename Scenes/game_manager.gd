@@ -39,7 +39,7 @@ To Do List:
 			Affect Mob spawns, speed, and size
 			Affect Point goal, spawn, size
 			Affect Player speed and size
-		How to Play Button
+		How to Play Button (done)
 		Exit Button (done)
 	Pause Menu  --------  DONE -------------
 		Pause game when pressing ESCAPE (done)
@@ -54,7 +54,7 @@ To Do List:
 		Main Menu Button (done)
 		Exit Button (done)
 		
-	Restructure the game to fit better with GameManager root node, 
+	Restructure the game to fit better with GameManager root node, (done)
 		ie Music being managed there, allowing multiple levels, etc
 		Level Switch (done)
 		Music being managed in GameManager (done)
@@ -90,6 +90,7 @@ var level_ended: bool = false:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$CanvasLayer/HowToPlayScreen.hide()
 	currentlyInGame = false
 	var music = $Music
 	music.set_volume_db(-20)
@@ -140,7 +141,7 @@ func goBackToStartMenu():
 	next_level.SettingsButtonPressed.connect(_on_start_menu_settings_button_pressed)
 	next_level.HowToPlayButtonPressed.connect(_on_start_menu_how_to_play_button_pressed)
 	next_level.ExitButtonPressed.connect(_on_start_menu_exit_button_pressed)
-	$Level.add_child(next_level)
+	$scene_transition.change_scene(next_level, $Level)
 	
 	# Toggle the pause and level end flags to false
 	currentlyInGame = false
@@ -154,7 +155,8 @@ func _on_start_menu_start_button_pressed():
 	next_level = next_level_resource.instantiate()
 	next_level.levelWon.connect(levelCompleted.bind())
 	next_level.levelLost.connect(levelFailed.bind())
-	$Level.add_child(next_level)
+#	$Level.add_child(next_level)
+	$scene_transition.change_scene(next_level, $Level)
 	currentlyInGame = true
 	
 func _on_start_menu_settings_button_pressed():
@@ -162,6 +164,7 @@ func _on_start_menu_settings_button_pressed():
 
 func _on_start_menu_how_to_play_button_pressed():
 	print("GameManager | StartMenu.HowToPlayButtonPressed received")
+	$CanvasLayer/HowToPlayScreen.popup_show()
 
 func _on_start_menu_exit_button_pressed():
 	print("GameManager | StartMenu.ExitButtonPressed received")
@@ -198,7 +201,10 @@ func _on_level_end_screen_play_button_pressed(levelWon: bool):
 	# If player failed level, reset the current level
 	else:
 		print("GameManager | _on_level_end_screen_play_button_pressed(): Resetting level and unpausing")
+		$scene_transition.scene_transition_start()
 		next_level.newGame()
+		$scene_transition.scene_transition_end()
+		
 		level_ended = false
 		currentlyInGame = true
 

@@ -30,7 +30,7 @@ grow_vertical = 2
 color = Color(0, 1, 1, 1)
 
 [node name="MessageTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 3.5
 
 [node name="StartTimer" type="Timer" parent="."]
 one_shot = true
@@ -48,6 +48,10 @@ gizmo_extents = 0.0
 curve = SubResource("Curve2D_4dnfe")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+
+[node name="PointGroups" type="Node" parent="."]
+
+[node name="MobGroups" type="Node" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_isuq7")]
 position = Vector2(240, 360)
