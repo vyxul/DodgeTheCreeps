@@ -14,11 +14,12 @@ point_count = 5
 
 [node name="Level_1" type="Node"]
 script = ExtResource("1_stu6h")
-pointGoal = 5
 mob_scene = ExtResource("2_valml")
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("3_df5ch")
+bus = &"SFX"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15

@@ -139,6 +139,9 @@ func _on_player_hit_point(instanceId: int):
 # Player hit an enemy
 func _on_player_hit_enemy():
 	print("Level_1 | _on_player_hit_enemy()")
+	$MobSpawnTimer.stop()
+	$PointTimer.stop()
+	
 	$DeathSound.set_volume_db(1.0)
 	$DeathSound.play()
 	

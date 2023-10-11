@@ -1,7 +1,7 @@
 extends Control
 
 signal resumeButtonPressed
-signal settingsButtonPressed
+signal menuButtonPressed
 signal exitButtonPressed
 
 # Called when the node enters the scene tree for the first time.
@@ -22,9 +22,9 @@ func _on_resume_button_pressed():
 	print("PauseMenu | _on_resume_button_pressed()")
 	resumeButtonPressed.emit()
 
-func _on_settings_button_pressed():
-	print("PauseMenu | _on_settings_button_pressed()")
-	settingsButtonPressed.emit()
+func _on_menu_button_pressed():
+	print("PauseMenu | _on_menu_button_pressed()")
+	menuButtonPressed.emit()
 
 func _on_exit_button_pressed():
 	print("PauseMenu | _on_exit_button_pressed()")

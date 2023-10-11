@@ -35,17 +35,21 @@ To Do List:
 	Start Menu
 		Start Button (done, goes to level_1, can be adjusted)
 		Settings Button
+			Affect Master, Music, and SFX volumes
+			Affect Mob spawns, speed, and size
+			Affect Point goal, spawn, size
+			Affect Player speed and size
 		How to Play Button
 		Exit Button (done)
-	Pause Menu
+	Pause Menu  --------  DONE -------------
 		Pause game when pressing ESCAPE (done)
 		Resume Button (done)
-		Settings Button
+		Menu Button (done)
 		Exit Button (done)
-	Level End Screen
+	Level End Screen -------------- DONE -------------------
 		Different text based off of win/loss condition (done)
-		Continue/Retry Button
-			Continue (need to make level2 or redirect to start)
+		Continue/Retry Button   --- DONE ---
+			Continue (done, redirects back to start menu)
 			Retry (Done, deathsound is messed up)
 		Main Menu Button (done)
 		Exit Button (done)
@@ -54,13 +58,10 @@ To Do List:
 		ie Music being managed there, allowing multiple levels, etc
 		Level Switch (done)
 		Music being managed in GameManager (done)
-	Add ability to slow down mobs
-	Add settings to adjust music volume and mob speed
-		Create settings menu
-		Link settings menu changes to actual nodes
-	Create how to play menu
-	Make dragon ball have a shiny animation on spawn
-	???
+		
+	EXTRAS:
+		Add ability to slow down mobs
+		Make dragon ball have a shiny animation on spawn
 """
 
 signal toggle_game_paused(is_paused: bool)
@@ -175,8 +176,10 @@ func _on_pause_menu_resume_button_pressed():
 	game_paused = !game_paused
 	print("game_paused: %s" % game_paused)
 
-func _on_pause_menu_settings_button_pressed():
-	print("GameManager | PauseMenu.SettingsButtonPressed received")
+func _on_pause_menu_menu_button_pressed():
+	print("GameManager | PauseMenu.MenuButtonPressed received")
+	goBackToStartMenu()
+	game_paused = false
 
 func _on_pause_menu_exit_button_pressed():
 	print("GameManager | PauseMenu.ExitButtonPressed received")
@@ -191,6 +194,7 @@ func _on_level_end_screen_play_button_pressed(levelWon: bool):
 	# If player completed level, move onto next level
 	if (levelWon):
 		print("GameManager | _on_level_end_screen_play_button_pressed(): Next level not implemented yet")
+		goBackToStartMenu()
 	# If player failed level, reset the current level
 	else:
 		print("GameManager | _on_level_end_screen_play_button_pressed(): Resetting level and unpausing")

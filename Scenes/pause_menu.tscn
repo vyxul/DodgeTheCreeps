@@ -54,10 +54,10 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lp4w7")
 text = "Resume"
 
-[node name="SettingsButton" type="Button" parent="Panel/VBoxContainer"]
+[node name="MenuButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lp4w7")
-text = "Settings"
+text = "Main Menu"
 
 [node name="ExitButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -65,5 +65,5 @@ theme_override_fonts/font = ExtResource("2_lp4w7")
 text = "Exit"
 
 [connection signal="pressed" from="Panel/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
