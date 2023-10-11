@@ -30,6 +30,7 @@ script = ExtResource("1_82e4g")
 [node name="Window" type="Window" parent="."]
 initial_position = 1
 size = Vector2i(400, 300)
+visible = false
 unresizable = true
 
 [node name="Background Art" type="Sprite2D" parent="Window"]

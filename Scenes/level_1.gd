@@ -3,12 +3,11 @@ extends Node
 signal levelWon(levelNum: int)
 signal levelLost(levelNum: int)
 
-@export var pointsToWin: int = 5
-@export var mobSpawnMax: int = 5
-@export var mobMinSpeed: int = 150
-@export var mobMaxSpeed: int = 250
-@export var pointSpawnMax: int = 1
-@export var pointGoal: int = 7
+@export var mobSpawnMax: int
+@export var mobMinSpeed: int
+@export var mobMaxSpeed: int
+@export var pointSpawnMax: int
+@export var pointGoal: int
 @export var mob_scene: PackedScene
 
 var levelNum = 1
@@ -27,8 +26,36 @@ func _ready():
 #	screen_size = DisplayServer.screen_get_size()
 	screen_size = get_viewport().content_scale_size
 	print("level_1 | _ready(): screen_size = (%s , %s)" % [str(screen_size.x), str(screen_size.y)])
+	
+	GlobalSettings.pointsToWin_changed.connect(on_pointsToWin_changed.bind())
+	GlobalSettings.pointSpawnCount_changed.connect(on_pointSpawnCount_changed.bind())
+	GlobalSettings.mobSpawnCount_changed.connect(on_mobSpawnCount_changed.bind())
+	GlobalSettings.mobMinSpeed_changed.connect(on_mobMinSpeed_changed.bind())
+	GlobalSettings.mobMaxSpeed_changed.connect(on_mobMaxSpeed_changed.bind())
+	
 	newGame()
 	pass # Replace with function body.
+
+# functions for when level 1 settings are changed
+func on_pointsToWin_changed(value):
+	print("level_1 | on_pointsToWin_changed: value = %s" % str(value))
+	pointGoal = value
+	
+func on_pointSpawnCount_changed(value):
+	print("level_1 | on_pointSpawnCount_changed: value = %s" % str(value))
+	pointSpawnMax = value
+	
+func on_mobSpawnCount_changed(value):
+	print("level_1 | on_mobSpawnCount_changed: value = %s" % str(value))
+	mobSpawnMax = value
+	
+func on_mobMinSpeed_changed(value):
+	print("level_1 | on_mobMinSpeed_changed: value = %s" % str(value))
+	mobMinSpeed = value
+	
+func on_mobMaxSpeed_changed(value):
+	print("level_1 | on_mobMaxSpeed_changed: value = %s" % str(value))
+	mobMaxSpeed = value
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

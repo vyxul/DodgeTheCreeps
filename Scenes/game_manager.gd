@@ -66,6 +66,7 @@ To Do List:
 
 signal toggle_game_paused(is_paused: bool)
 signal toggle_level_end(level_ended: bool)
+signal toggle_show_settings(show_settings: bool)
 
 var next_level_resource
 var next_level
@@ -87,10 +88,18 @@ var level_ended: bool = false:
 		level_ended = value
 		get_tree().paused = level_ended
 		toggle_level_end.emit(level_ended)
+		
+var show_settings: bool = false:
+	get:
+		return show_settings
+	set(value):
+		show_settings = value
+		toggle_show_settings.emit(show_settings)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$CanvasLayer/HowToPlayScreen.hide()
+	GlobalSettings.displayFPS_changed.connect(on_displayFPS_changed.bind())
+	
 	currentlyInGame = false
 	var music = $Music
 	music.set_volume_db(-20)
@@ -113,6 +122,16 @@ func _input(event : InputEvent):
 		print("GameManager | _input(): Toggling game state")
 		game_paused = !game_paused
 		print("game_paused: %s" % game_paused)
+
+func on_displayFPS_changed(value):
+	var fpsLabel = $FPS_counter
+	
+	if (value):
+		fpsLabel.visible = true
+		fpsLabel.text = ("FPS: " + str(Engine.get_frames_per_second()))
+	else:
+		fpsLabel.visible = false
+		fpsLabel.text = ""
 
 # When the player successfully completes a level
 func levelCompleted(levelNum):
@@ -161,6 +180,7 @@ func _on_start_menu_start_button_pressed():
 	
 func _on_start_menu_settings_button_pressed():
 	print("GameManager | StartMenu.SettingsButtonPressed received")
+	show_settings = true
 
 func _on_start_menu_how_to_play_button_pressed():
 	print("GameManager | StartMenu.HowToPlayButtonPressed received")
@@ -217,3 +237,10 @@ func _on_level_end_screen_exit_button_pressed():
 	print("GameManager | PauseMenu.ResumeButtonPressed received")
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	get_tree().quit()
+
+""" Setting Menu Events """
+func _on_settings_menu_save_button_pressed():
+	show_settings = false
+
+func _on_settings_menu_close_button_pressed():
+	show_settings = false
