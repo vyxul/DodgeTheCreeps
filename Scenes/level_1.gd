@@ -126,7 +126,7 @@ func _on_mob_spawn_timer_timeout():
 	
 	mobCounter += 1
 	mob.name = "Mob_" + str(mobCounter)
-	print("Mob.name = %s" % mob.name)
+#	print("Mob.name = %s" % mob.name)
 	$MobGroups.add_child(mob)
 	mob.mobExitedScreen.connect(mobExitedScreen) # Recommended way
 #	mob.connect("mobExitedScreen", mobExitedScreen) # Alternative way, not recommended

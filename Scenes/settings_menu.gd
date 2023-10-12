@@ -76,19 +76,19 @@ func _on_point_to_win_value_text_changed(value):
 	GlobalSettings.update_pointsToWin(value)
 	
 func _on_points_spawn_count_value_text_changed(value):
-	print("Settings Menu | _on_point_to_win_value_text_changed: value = %s" % str(value))
+	print("Settings Menu | _on_points_spawn_count_value_text_changed: value = %s" % str(value))
 	GlobalSettings.update_pointSpawnCount(value)
 	
 func _on_mob_spawn_count_value_text_changed(value):
-	print("Settings Menu | _on_point_to_win_value_text_changed: value = %s" % str(value))
+	print("Settings Menu | _on_mob_spawn_count_value_text_changed: value = %s" % str(value))
 	GlobalSettings.update_mobSpawnCount(value)
 	
 func _on_mob_min_speed_value_text_changed(value):
-	print("Settings Menu | _on_point_to_win_value_text_changed: value = %s" % str(value))
+	print("Settings Menu | _on_mob_min_speed_value_text_changed: value = %s" % str(value))
 	GlobalSettings.update_mobMinSpeed(value)
 	
 func _on_mob_max_speed_value_text_changed(value):
-	print("Settings Menu | _on_point_to_win_value_text_changed: value = %s" % str(value))
+	print("Settings Menu | _on_mob_max_speed_value_text_changed: value = %s" % str(value))
 	GlobalSettings.update_mobMaxSpeed(value)
 
 # Exit Buttons
