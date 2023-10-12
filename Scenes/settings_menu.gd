@@ -17,7 +17,7 @@ signal closeButton_pressed
 @onready var sfx_vol_value = $MarginContainer/VBoxContainer/TabContainer/Audio/MarginContainer/GridContainer/HBoxContainer3/SFXVolValue
 
 # Level 1 Settings
-@onready var pointsToWin = $MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer/PointsSpawnCountValue
+@onready var pointsToWin = $MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer/PointToWinValue
 @onready var pointsSpawnCount = $MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer/PointsSpawnCountValue
 @onready var mobSpawnCount = $MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer/MobSpawnCountValue
 @onready var mobMinSpeed = $MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer/MobMinSpeedValue
@@ -94,6 +94,19 @@ func _on_mob_max_speed_value_text_changed(value):
 # Exit Buttons
 func _on_save_button_pressed():
 	Save.save_data()
+	# Get all the available settings for level settings that can be changed and 
+	# apply the current value in case user didn't press enter
+	var pointsToWinValue = pointsToWin.text
+	var pointsSpawnCountValue = pointsSpawnCount.text
+	var mobSpawnCountValue = mobSpawnCount.text
+	var mobMinSpeedValue = mobMinSpeed.text
+	var mobMaxSpeedValue = mobMaxSpeed.text
+	GlobalSettings.update_pointsToWin(pointsToWinValue)
+	GlobalSettings.update_pointSpawnCount(pointsSpawnCountValue)
+	GlobalSettings.update_mobSpawnCount(mobSpawnCountValue)
+	GlobalSettings.update_mobMinSpeed(mobMinSpeedValue)
+	GlobalSettings.update_mobMaxSpeed(mobMaxSpeedValue)
+	
 	saveButton_pressed.emit()
 
 func _on_close_button_pressed():

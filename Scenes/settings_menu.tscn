@@ -195,6 +195,7 @@ custom_minimum_size = Vector2(20, 40)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_b0q8l")
 placeholder_text = "7"
+max_length = 2
 
 [node name="PointsSpawnCount" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -206,6 +207,7 @@ custom_minimum_size = Vector2(20, 40)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_b0q8l")
 placeholder_text = "1"
+max_length = 2
 
 [node name="MobSpawnCount" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -217,6 +219,7 @@ custom_minimum_size = Vector2(20, 40)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_b0q8l")
 placeholder_text = "5"
+max_length = 2
 
 [node name="MobMinSpeed" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -228,6 +231,7 @@ custom_minimum_size = Vector2(20, 40)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_b0q8l")
 placeholder_text = "150"
+max_length = 4
 
 [node name="MobMaxSpeed" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Level_1/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -239,6 +243,7 @@ custom_minimum_size = Vector2(20, 40)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_b0q8l")
 placeholder_text = "250"
+max_length = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

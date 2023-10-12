@@ -45,17 +45,21 @@ func update_pointsToWin(value):
 	Save.game_data.level_1_point_goal = value
 
 func update_pointSpawnCount(value):
+	print("GlobalSettings | update_pointSpawnCount: value = %s" % str(value))
 	pointSpawnCount_changed.emit(value)
 	Save.game_data.level_1_point_spawn_max = value
 	
 func update_mobSpawnCount(value):
+	print("GlobalSettings | update_mobSpawnCount: value = %s" % str(value))
 	mobSpawnCount_changed.emit(value)
 	Save.game_data.level_1_mob_spawn_max = value
 	
 func update_mobMinSpeed(value):
+	print("GlobalSettings | update_mobMinSpeed: value = %s" % str(value))
 	mobMinSpeed_changed.emit(value)
 	Save.game_data.level_1_mob_min_speed = value
 	
 func update_mobMaxSpeed(value):
+	print("GlobalSettings | update_mobMaxSpeed: value = %s" % str(value))
 	mobMaxSpeed_changed.emit(value)
 	Save.game_data.level_1_mob_max_speed = value
