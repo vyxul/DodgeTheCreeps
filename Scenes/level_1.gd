@@ -3,11 +3,11 @@ extends Node
 signal levelWon(levelNum: int)
 signal levelLost(levelNum: int)
 
-@export var mobSpawnMax: int
-@export var mobMinSpeed: int
-@export var mobMaxSpeed: int
-@export var pointSpawnMax: int
-@export var pointGoal: int
+@export var pointGoal: int = 7
+@export var pointSpawnMax: int = 1
+@export var mobSpawnMax: int = 5
+@export var mobMinSpeed: int = 150
+@export var mobMaxSpeed: int = 250
 @export var mob_scene: PackedScene
 
 var levelNum = 1
@@ -36,7 +36,7 @@ func _ready():
 	newGame()
 	pass # Replace with function body.
 
-# functions for when level 1 settings are changed
+# functions for when level 1 settings are changed after already loaded
 func on_pointsToWin_changed(value):
 	print("level_1 | on_pointsToWin_changed: value = %s" % str(value))
 	pointGoal = value
@@ -62,12 +62,21 @@ func _process(delta):
 	pass
 
 func newGame():
+	# Reset the counters
 	currentPoints = 0
 	mobsSpawned = 0
 	pointsSpawned = 0
 	pointsGained = 0
 	pointCounter = 0
 	mobCounter = 0
+	
+	# Set up the adjustable variables from save file
+	pointGoal = int(Save.game_data.level_1_point_goal)
+	pointSpawnMax = int(Save.game_data.level_1_point_spawn_max)
+	mobSpawnMax = int(Save.game_data.level_1_mob_spawn_max)
+	mobMinSpeed = int(Save.game_data.level_1_mob_min_speed)
+	mobMaxSpeed = int(Save.game_data.level_1_mob_max_speed)
+	
 	$HUD.update_score(pointsGained)
 	get_tree().call_group("mobs", "queue_free")
 	get_tree().call_group("dragonballs", "queue_free")
